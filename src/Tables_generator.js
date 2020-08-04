@@ -8,13 +8,13 @@ function TablesGenerator(props) {
           <th scope="col"> High Scores per Countries</th>
         </tr>
       </thead>
-      <HighScoreTable info={props.infoScores} />
+      <HighScoreTable info={props.infoScores} func={props.sortPlayers} />
     </table>
   );
 }
 
 const PlayerScore = (props) =>
-  sortPlayersScoresAscending(props.playerInfo).map((name, index) => (
+  props.playerfunc(props.playerInfo).map((name, index) => (
     <td key={-index}>
       {name.n} {name.s}
     </td>
@@ -29,22 +29,10 @@ function HighScoreTable(props) {
         </th>
       </tr>
       <tr className="row">
-        <PlayerScore playerInfo={infoScore.scores} />
+        <PlayerScore playerInfo={infoScore.scores} playerfunc={props.func} />
       </tr>
     </tfoot>
   ));
 }
-function sortPlayersScoresDescending(array) {
-  array.sort(function (a, b) {
-    return b.s - a.s;
-  });
-  return array;
-}
 
-function sortPlayersScoresAscending(array) {
-  array.sort(function (a, b) {
-    return a.s - b.s;
-  });
-  return array;
-}
 export default TablesGenerator;

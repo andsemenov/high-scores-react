@@ -5,22 +5,25 @@ import allCountryScores from "./score.js";
 
 function App() {
   let [state, setState] = useState("Ascending");
-  let [sort, setSort] = useState();
+  let sort = sortPlayersScoresDescending;
   function sortWhenClicked() {
     if (state === "Ascending") {
       setState((state = "Descending"));
+      sort = sortPlayersScoresDescending;
     } else {
       setState((state = "Ascending"));
+
+      sort = sortPlayersScoresAscending;
     }
-    console.log(state);
-    console.log(sort);
   }
+  console.log(state);
+  console.log(sort);
   return (
     <div>
-      <ButtonOnTheTop state={state} act={sortWhenClicked} />
+      <ButtonOnTheTop stateBtn={state} act={sortWhenClicked} />
       <TablesGenerator
         infoScores={sortCountriesAlphabetically(allCountryScores)}
-        playerInfo={allCountryScores}
+        sortPlayers={sortPlayersScoresDescending}
       />
     </div>
   );
@@ -40,7 +43,21 @@ function sortCountriesAlphabetically(array) {
 }
 
 function ButtonOnTheTop(props) {
-  return <button onClick={props.act}>{props.state}</button>;
+  return <button onClick={props.act}>{props.stateBtn}</button>;
+}
+
+function sortPlayersScoresDescending(array) {
+  array.sort(function (a, b) {
+    return b.s - a.s;
+  });
+  return array;
+}
+
+function sortPlayersScoresAscending(array) {
+  array.sort(function (a, b) {
+    return a.s - b.s;
+  });
+  return array;
 }
 
 export default App;
